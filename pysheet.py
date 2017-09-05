@@ -5,6 +5,7 @@ from PIL import Image
 import argparse
 import time
 import math
+import re #for sorting file names
 
 from pprint import pprint
 
@@ -60,6 +61,14 @@ print "Filename: " + savefile
 #http://stackoverflow.com/a/168435
 files = [ x[0] for x in sorted([(path+delimeter+fn, os.stat(path+delimeter+fn)) for fn in os.listdir(path)], key = lambda x: x[1].st_ctime)]
 #pprint( files )
+#https://stackoverflow.com/a/4836734
+def natural_sort(l): 
+    convert = lambda text: int(text) if text.isdigit() else text.lower() 
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ] 
+    return sorted(l, key = alphanum_key)
+
+files = natural_sort(files)
+
 autowidth = int(math.ceil(math.sqrt(len(files))))
 fim = Image.open(files[0])
 dimensions = fim.size
@@ -70,7 +79,13 @@ isize = (autowidth*dimensions[0],autowidth*dimensions[1])
 white = (255,255,255,255)
 black = (0,0,0,0);
 print isize
-inew = Image.new('RGBA',isize,black)
+#inew = Image.new('RGBA',isize,black)
+#copy the image, basically makes a new image with the same mode, to avoid filthy errors
+inew = Image.new(fim.mode,isize,black)
+#inew.convert(fim.mode)
+#print("----------NEW:"+inew.mode)
+#print("----------FIR:"+fim.mode)
+
 
 count = 0
 # Insert each thumb:
@@ -81,14 +96,25 @@ for irow in range(autowidth):
         upper = irow*(dimensions[1])
         lower = upper + dimensions[1]
         bbox = (left,upper,right,lower)
+        upperleft = (upper,left)
+        #print("BBOX--------:"+str(left)+":"+str(right)+":"+str(upper)+":"+str(lower) )
+        
         try:
             # Read in an image and resize appropriately
             #img = Image.open(fnames[count]).resize((photow,photoh))
             img = Image.open(files[count])
+            #img.convert('RGBA')
+            #print("----------CON:"+img.mode)
+            print("FILENAME---------:"+files[count])
+            print("UPPERLEFT--------:"+str(upper)+":"+str(left))
         except:
             break
-        inew.paste(img,bbox,img)
+        #inew.paste(img,bbox,img)
+        inew.paste(img,upperleft)
         count += 1
+if (isize[0]>4096):
+    print("WE ARE LARGE, RESIZE TO 4096")
+    inew = inew.resize((4096,4096),Image.BICUBIC)
 inew.save(savefile)
 inew.show()
 
