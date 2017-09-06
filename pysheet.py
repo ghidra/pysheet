@@ -91,11 +91,13 @@ count = 0
 # Insert each thumb:
 for irow in range(autowidth):
     for icol in range(autowidth):
-        left = icol*(dimensions[0])
-        right = left + dimensions[0]
-        upper = irow*(dimensions[1])
-        lower = upper + dimensions[1]
-        bbox = (left,upper,right,lower)
+        
+        left = irow*(dimensions[0])
+        #right = left + dimensions[0]
+        upper = icol*(dimensions[1])
+        #lower = upper + dimensions[1]
+        
+        #bbox = (left,upper,right,lower)
         upperleft = (upper,left)
         #print("BBOX--------:"+str(left)+":"+str(right)+":"+str(upper)+":"+str(lower) )
         
