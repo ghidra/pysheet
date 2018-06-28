@@ -1,5 +1,5 @@
 # pysheet
-python sprite sheet from sequence
+python (2 or 3) sprite sheet from sequence
 
 requires pil or pillow module installed
 running requires a valid directory path with a supported file type sequence (png suggested)

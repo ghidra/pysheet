@@ -9,7 +9,7 @@ import re #for sorting file names
 
 from pprint import pprint
 
-print "------------------------\nLets try to make a sprite sheet\n------------------------"
+print("------------------------\nLets try to make a sprite sheet\n------------------------")
 
 #lets get some arguments
 
@@ -22,22 +22,22 @@ parser.add_argument("-e","--end", help="end frame", type=int)
 
 args = parser.parse_args()
 
-print "Sequence: "+str(args.sequence)
+print("Sequence: "+str(args.sequence) )
 
 if args.begin:
-	print "Begin: "+str(args.begin)
+	print("Begin: "+str(args.begin))
 if args.end:
-	print "End: "+str(args.end)
+	print("End: "+str(args.end))
 
 
 #look in the folder
 if(args.sequence==None):
-	print "You should apply a directory to find a sequence to sprite sheet up"
+	print("You should apply a directory to find a sequence to sprite sheet up")
 	sys.exit()
 
 path = str(args.sequence)
 if(not os.path.isdir(path)):
-	print "Supplied sequence path is bogus"
+	print("Supplied sequence path is bogus")
 	sys.exit()
 
 #get the parent directory for saving the sprite sheet
@@ -47,15 +47,15 @@ if platform.system() == "Windows":
 dirsplit = path.split(delimeter)
 dirsplit = dirsplit[:-1]
 parentdir = delimeter.join(dirsplit)
-print "Parent Directory: "+parentdir
+print("Parent Directory: "+parentdir)
 
 outfile = "sprite_sheet"
 if args.output:
 	outfile = str(args.output)
 savefile = parentdir+delimeter+outfile + ".png"
 
-print "Sequence folder acceptable"
-print "Filename: " + savefile
+print("Sequence folder acceptable")
+print("Filename: " + savefile)
 
 #look at getting the sequence files
 #http://stackoverflow.com/a/168435
@@ -78,7 +78,7 @@ isize = (autowidth*dimensions[0],autowidth*dimensions[1])
 # Create the new image. The background doesn't have to be white
 white = (255,255,255,255)
 black = (0,0,0,0);
-print isize
+print(isize)
 #inew = Image.new('RGBA',isize,black)
 #copy the image, basically makes a new image with the same mode, to avoid filthy errors
 inew = Image.new(fim.mode,isize,black)
